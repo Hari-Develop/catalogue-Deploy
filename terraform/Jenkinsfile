@@ -15,8 +15,8 @@ pipeline {
         timeout(time: 1 , unit: "HOURS")
         disableConcurrentBuilds()
         ansiColor('xterm') {
-            foreground 'white'
-            background 'black'
+            foreground "WHITE"
+            background "BLACK"
         }
     }
     parameters {
