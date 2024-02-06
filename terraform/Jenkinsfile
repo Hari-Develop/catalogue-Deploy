@@ -16,7 +16,7 @@ pipeline {
         disableConcurrentBuilds()
         ansiColor('xterm')
         }
-    }
+    
     parameters {
         string(name: 'version' , defaultValue: '' , description: 'what is artifact version')
         string(name: 'environment' , defaultValue: '' , description: 'what is the environment')
@@ -99,3 +99,5 @@ pipeline {
             echo "pipeline is success...party..ledha..pushpa.."
         }
     }
+
+}
