@@ -41,13 +41,12 @@ pipeline {
                     """ 
             }
         }
-        stage('Building Application') {
+        stage('terraform plan') {
             steps {
-                // Add npm steps here
+                // Add terraform plan steps here
                 sh """
-                    ls -la
-                    zip -q -r catalogue.zip ./* -x jenkinsfile -x ".git" -x "*Jenkinsfile" -x "*.zip"
-                    ls -a
+                    cd terraform
+                    terraform plan -var-file=${params.environment}/${params.environment}.tfvars
                     """ 
             }
         }
