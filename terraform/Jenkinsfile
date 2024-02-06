@@ -15,8 +15,12 @@ pipeline {
         timeout(time: 1 , unit: "HOURS")
         disableConcurrentBuilds()
         ansiColor('xterm') {
-            foreground "WHITE"
-            background "BLACK"
+            script{
+                sh """  
+                    XTerm*Background: black
+                    XTerm*Foreground: white
+                """
+            }
         }
     }
     parameters {
