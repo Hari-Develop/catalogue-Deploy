@@ -15,7 +15,8 @@ pipeline {
         timeout(time: 1 , unit: "HOURS")
         disableConcurrentBuilds()
         ansiColor('xterm') {
-            sh "echo '\033[40m\033[37mThis text has a black background and white foreground\033[0m'"
+            foreground 'white'
+            background 'black'
         }
     }
     parameters {
