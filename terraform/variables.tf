@@ -22,7 +22,7 @@ variable "environment" {
 variable "zone_name" {
   default = "unlockers.online"
 }
-variable "packageVersion" {
+variable "app_version" {
   
 }
 
