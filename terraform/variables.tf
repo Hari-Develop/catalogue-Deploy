@@ -22,6 +22,10 @@ variable "environment" {
 variable "zone_name" {
   default = "unlockers.online"
 }
-variable "app_version" {
+variable "packageVersion" {
   
+}
+
+variable "iam_instance_profile" {
+  default = "workstation_Administrator"
 }
