@@ -5,20 +5,13 @@ pipeline {
             label 'Jenkins_agent'
         } 
     }
-    // environment {
-    //     // using the environment variables here
-    //     PackageVersion = ''
-    //     nexusURL = '172.31.32.58:8081/repository'
-    // }
-
     options {
         timeout(time: 1 , unit: "HOURS")
         disableConcurrentBuilds()
         ansiColor('xterm')
         }
-    
     parameters {
-        string(name: 'version' , defaultValue: '' , description: 'what is artifact version')
+        string(name: 'packageVersion' , defaultValue: '' , description: 'what is artifact version')
         string(name: 'environment' , defaultValue: '' , description: 'what is the environment')
     }
     stages {
@@ -27,7 +20,6 @@ pipeline {
                 sh """
                     echo "version: ${params.version}" 
                     echo "environment: ${params.environment}"  
-
                 """
             }
         }
@@ -45,27 +37,8 @@ pipeline {
                 // Add terraform plan steps here
                 sh """
                     cd terraform
-                    terraform plan -var-file=${params.environment}/${params.environment}.tfvars -var="app_version=${params.version}"
+                    terraform plan -var-file=${params.environment}/${params.environment}.tfvars -var="app_version=${params.packageVersion}"
                     """ 
-            }
-        }
-        stage('punshing the arifactory into nexus') {
-            steps {
-                    nexusArtifactUploader(
-                        nexusVersion: 'nexus3',
-                        protocol: 'http',
-                        nexusUrl: "${nexusURL}",
-                        groupId: 'com.roboshop',
-                        version: "${PackageVersion}",
-                        repository: 'catalogue',
-                        credentialsId: 'nexus-cred',
-                        artifacts: [
-                            [artifactId: 'catalogue',
-                            classifier: '',
-                            file: 'catalogue.zip',
-                            type: 'zip']
-                        ]
-                    )
             }
         }
         stage('Deploy') {
@@ -75,8 +48,9 @@ pipeline {
                 submitter "alice,bob"
             }
             steps {
-                // Add deploy steps here
-                sh 'echo "Deploying..."'
+                sh """
+                    terraform apply -var-file=${params.environment}/${params.environment}.tfvars -var="app_version=${params.packageVersion}" -auto-approve
+                """
             }
         }
         stage('release') {
