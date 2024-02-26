@@ -18,7 +18,7 @@ pipeline {
         stage("Getting the version of the file") {
             steps {
                 sh """
-                    echo "version: ${params.version}" 
+                    echo "version: ${params.packageVersion}" 
                     echo "environment: ${params.environment}"  
                 """
             }
